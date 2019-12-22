@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PropertyApp</string>
+    <string name="title">Within Network</string>
+    <string name="address1">Unit 3 26 Hainsworth Street</string>
+    <string name="address2">Westmead 2145</string>
+    <string name="profile_name">Adeem Khader</string>
+    <string name="address3">State and Suburb</string>
+    <string name="nofbeds">1</string>
+    <string name="refresh">Refresh</string>
+</resources>
