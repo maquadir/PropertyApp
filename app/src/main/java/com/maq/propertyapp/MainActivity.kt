@@ -49,10 +49,10 @@ class MainActivity : AppCompatActivity() {
         fetchFromJSON()
 
 
-
     }
 
     private fun fetchFromJSON() {
+
         val service = PropertiesApi.invoke()
         CoroutineScope(Dispatchers.IO).launch {
             val response = service.getProperties()
@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     //To create a menu
