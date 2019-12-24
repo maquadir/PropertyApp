@@ -100,7 +100,7 @@ It is the UI part that represents the current state of information that is visib
               .into(view)
       }
 
-# Dependency Injection
+### Dependency Injection
 Constructor dependency injection has been used at multiple instances.It allows for less code overall when trying to get reference to services you share across classes, and decouples components nicely in general
 
 ### Build Gradle
@@ -140,4 +140,6 @@ We declare the respective dependdencies to execute the above
 
 # Screenshots
 <img width="350" alt="Screen Shot 2019-12-25 at 8 05 55 AM" src="https://user-images.githubusercontent.com/19331629/71426011-c90be900-26f7-11ea-985a-b9b1f5b37caa.png"> <img width="350" alt="Screen Shot 2019-12-25 at 8 05 55 AM" src="https://user-images.githubusercontent.com/19331629/71426028-feb0d200-26f7-11ea-981d-d7ba721be139.png">
+
+
 
