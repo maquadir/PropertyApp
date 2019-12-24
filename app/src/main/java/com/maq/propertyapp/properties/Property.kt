@@ -1,13 +1,14 @@
-package com.maq.propertyapp
+package com.maq.propertyapp.properties
 
 import com.squareup.moshi.Json
+
+//JSON to Kotlin Class
 
 data class Property (
     @Json(name = "ad_id")
     val ad_id : Int,
     @Json(name = "data")
     var data: data
-//    var listings: Array<PropertyData>
 )
 
 data class PropertyData (
@@ -45,14 +46,14 @@ data class Owner(
     val name:String,
     val lastName:String,
     val dob:String,
-    var image:Image
+    var image: Image
 )
 
 data class Image(
 
-    val big:Url,
-    val small:Url,
-    val medium:Url
+    val big: Url,
+    val small: Url,
+    val medium: Url
 )
 
 data class Url(

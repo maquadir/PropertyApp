@@ -4,76 +4,77 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.maq.propertyapp.network.PropertiesApi
+import com.maq.propertyapp.properties.PropertiesRepository
+import com.maq.propertyapp.properties.PropertyAdapter
+import com.maq.propertyapp.properties.PropertyViewModel
+import com.maq.propertyapp.properties.PropertyViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.jetbrains.anko.toast
-import retrofit2.HttpException
+import kotlinx.android.synthetic.main.custom_toast.*
 
 
 class MainActivity : AppCompatActivity() {
 
-    var actionbar_title: String = ""
-//    var propertyList = ArrayList<HashMap<String, String>>()
-    val propertyList = ArrayList<Property>()
-
-    private  lateinit var viewModel:MainViewModel
+    private  lateinit var viewModel: PropertyViewModel
+    private lateinit var factory: PropertyViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.i("View Model","Calling Main View Model")
-
-        //calling viewModel
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
-//        var progressBar :ProgressBar = findViewById(R.id.loader)
-//        progressBar.setVisibility(View.VISIBLE)
-
         //check if phone is connected to internet
         if(isNetworkConnected() == false){
-            toast("Connect your phone to internet and click refresh")
+            displayToast("Connect your phone to internet and click refresh")
             return
         }
 
-        fetchFromJSON()
+        setupUI()
+
 
 
     }
 
-    private fun fetchFromJSON() {
+    private fun setupUI() {
 
-        val service = PropertiesApi.invoke()
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = service.getProperties()
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        //Do something with response e.g show to the UI.
-                        toast("fetched from JSON")
-                        response.body()?.let { showProperties(it) }
-                        findViewById<ProgressBar>(R.id.loader).visibility = View.INVISIBLE
-                    } else {
-                        toast("Error: ${response.code()}")
-                    }
-                } catch (e: HttpException) {
-                    toast("Exception ${e.message}")
-                } catch (e: Throwable) {
-                    toast("Ooops: Something else went wrong")
-                }
+        //display progress bar and toast
+        findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
+        displayToast("Loading")
+
+        //setup api and repository to read from JSON URL
+        val api = PropertiesApi()
+        val repository = PropertiesRepository(api)
+
+        //setup view model
+        factory =
+            PropertyViewModelFactory(repository)
+        viewModel = ViewModelProviders.of(this, factory).get(PropertyViewModel::class.java)
+
+        //get data from json reponse
+        viewModel.getProperties()
+
+        //setup recyclerview adapter with data
+        viewModel.properties.observe(this, Observer { properties ->
+            recyclerView.also {
+                findViewById<ProgressBar>(R.id.loader).visibility = View.INVISIBLE
+                it.layoutManager = LinearLayoutManager(this)
+                it.setHasFixedSize(true)
+                it.adapter = PropertyAdapter(
+                    properties,
+                    this
+                )
             }
-        }
-
+        })
     }
 
     //To create a menu
@@ -90,12 +91,12 @@ class MainActivity : AppCompatActivity() {
 
             //check if phone is connected to internet
             if(isNetworkConnected() == false){
-                toast("Connect your phone to internet and click refresh")
+                displayToast("Connect your phone to internet and click refresh")
             }else {
-                //this method call fetches data from the json url
-                //display a progress bar before background operation starts
-                findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
-                fetchFromJSON()
+                //this method call fetches data from the json url and sets up recyclerview adapter
+                displayToast("Loading")
+
+                setupUI()
             }
             true
 
@@ -109,11 +110,16 @@ class MainActivity : AppCompatActivity() {
         return cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected
     }
 
-    private fun showProperties(properties: Property){
+    fun displayToast(message:String){
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = PropertyAdapter(properties)
+        val layout = layoutInflater.inflate(R.layout.custom_toast,linearLayout)
+        val myToast = Toast(applicationContext)
+        myToast.setGravity(Gravity.TOP,0,200)
+        myToast.view = layout
+        val toastText = layout.findViewById(R.id.custom_toast_message) as TextView
+        toastText.text = message
 
+        myToast.show()
     }
 
 }

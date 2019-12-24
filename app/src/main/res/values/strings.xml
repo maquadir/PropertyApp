@@ -5,6 +5,22 @@
     <string name="address2">Westmead 2145</string>
     <string name="profile_name">Adeem Khader</string>
     <string name="address3">State and Suburb</string>
-    <string name="nofbeds">1</string>
+    <string name="no_of_beds">1</string>
     <string name="refresh">Refresh</string>
+    <string name="custom_text">toast message</string>
+    <string name="price">price</string>
+    <string name="dob">Date of birth</string>
+    <string name="description">Description</string>
+    <string name="details">Details</string>
+    <string name="not_available">Not Available</string>
+    <string name="auction_date">Auctioned on</string>
+    <string name="date_listed">Date Listed</string>
+    <string name="date_updated">Date Updated</string>
+    <string name="images">Images</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="bed_icon">Bed Icon</string>
+    <string name="bath_icon">Bath Icon</string>
+    <string name="car_icon">Car Icon</string>
+    <string name="logo">Logo</string>
+    <string name="profile_icon">Profile Icon</string>
 </resources>
