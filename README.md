@@ -47,7 +47,7 @@ A Property data class is created using JSON to Kotlin class plugin to map the JS
               val repository = PropertiesRepository(api)
 
 ### View Model
-We set up a view model factory which is responsible for creating view models
+We set up a view model factory which is responsible for creating view models.It contains the data required in the View and translates the data which is stored in Model which then can be present inside a View. ViewModel and View are connected through Databinding and the observable Livedata.
 
         factory = PropertyViewModelFactory(repository)
         viewModel = ViewModelProviders.of(this, factory).get(PropertyViewModel::class.java)
@@ -69,7 +69,7 @@ Coroutines are a great way to write asynchronous code that is perfectly readable
                 )
 
 ### View
-A Recycler View displays the data read from the JSON. We setup a recycler view adapter to take care of displaying the data on the view.
+It is the UI part that represents the current state of information that is visible to the user.A Recycler View displays the data read from the JSON. We setup a recycler view adapter to take care of displaying the data on the view.
 - The View model observes any data change and updates the adapter.
 
       viewModel.properties.observe(this, Observer { properties ->
