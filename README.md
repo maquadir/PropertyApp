@@ -4,7 +4,7 @@ This is an Android Application written in Kotlin to display a collection of prop
 # Installation
 Clone the repo and install the dependencies.
         
-      git clone git@github.com:wolox/<reponame>.git
+      git clone git@github.com:maquadir/PropertyApp.git
       
 # Architecture and Design
 The application follows an MVVM architecture as given below
@@ -15,19 +15,21 @@ The application follows an MVVM architecture as given below
 ### Manifest File
 - Since the app is going to fetch from json url .We have to add the following internet permissions to the manifest file.
     
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
  
 - The app supports orientation change and adapts to both portrait and landscape modes by mentioning screen orientation as 'sensor' which detects screen change and adapts its layout.
 
-    android:screenOrientation="sensor"
+         android:screenOrientation="sensor"
     
 ### Material Styling
-A progress bar is displayed during thee JSON operation.
+- A progress bar is displayed during the async JSON read operation.
+- A CardView to display the details with rounded corners and a background shadow 
+- Montserrat Font styling for texts
 
-### JSON Operation using Retrofit.Builder()
-We have declared an API interface to deal with the JSON request using Retrofit
+### Invoke JSON Url using Retrofit.Builder()
+We have declared a Properties API interface to invoke the JSON url using Retrofit.Builder()
 
          return Retrofit.Builder()
                 .baseUrl(BASE_URl)
@@ -36,7 +38,7 @@ We have declared an API interface to deal with the JSON request using Retrofit
                 
 ### Model
 A Modelcontains all the data classes, database classes, API and repository.
-A Property data class is created using JSON to Kotlin class plugin to map the JSON data to Kotlin. A Properties Api class to handle api requests and a repository takes care of how data will be fetched from the api.
+A Property data class is created using "JSON to Kotlin class" plugin to map the JSON data to Kotlin. A Properties Api class to handle api requests and a repository takes care of how data will be fetched from the api.
               
               data class Property (
                      val ad_id : Int,
@@ -47,13 +49,13 @@ A Property data class is created using JSON to Kotlin class plugin to map the JS
               val repository = PropertiesRepository(api)
 
 ### View Model
-We set up a view model factory which is responsible for creating view models
+We set up a view model factory which is responsible for creating view models.It contains the data required in the View and translates the data which is stored in Model which then can be present inside a View. ViewModel and View are connected through Databinding and the observable Livedata.
 
         factory = PropertyViewModelFactory(repository)
         viewModel = ViewModelProviders.of(this, factory).get(PropertyViewModel::class.java)
 
 ### Coroutines
-Coroutines are a great way to write asynchronous code that is perfectly readable and maintainable. We use it to perform a job of reading from the JSON url.
+Coroutines are a great way to write asynchronous code that is perfectly readable and maintainable. We use it to perform a job of reading data from the JSON url.
 
         fun<T: Any> ioThenMain(work: suspend (() -> T?), callback: ((T?)->Unit)) =
         CoroutineScope(Dispatchers.Main).launch {
@@ -69,7 +71,7 @@ Coroutines are a great way to write asynchronous code that is perfectly readable
                 )
 
 ### View
-A Recycler View displays the data read from the JSON. We setup a recycler view adapter to take care of displaying the data on the view.
+It is the UI part that represents the current state of information that is visible to the user.A Recycler View displays the data read from the JSON. We setup a recycler view adapter to take care of displaying the data on the view.
 - The View model observes any data change and updates the adapter.
 
       viewModel.properties.observe(this, Observer { properties ->
@@ -91,7 +93,7 @@ A Recycler View displays the data read from the JSON. We setup a recycler view a
             )
         holder.listViewItemBinding.indicator.setViewPager(holder.listViewItemBinding.viewpager)
         
-- We use Glide to display profile image
+- We use Glide to display profile image using data binding
       
       @BindingAdapter("image")
       fun loadImage(view: ImageView, url: String) {
@@ -100,10 +102,14 @@ A Recycler View displays the data read from the JSON. We setup a recycler view a
               .into(view)
       }
 
+### Dependency Injection
+Constructor dependency injection has been used at multiple instances.It allows for less code overall when trying to get reference to services you share across classes, and decouples components nicely in general
 
+### Data Binding
+The Data Binding Library is an Android Jetpack library that allows you to bind UI components in your XML layouts to data sources in your app using a declarative format rather than programmatically.All the UIView elements in the layout are binded to views through data binding.
 
 ### Build Gradle
-We declare the respective dependdencies to execute the above
+We declare the respective dependencies 
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.10.0'
@@ -139,4 +145,16 @@ We declare the respective dependdencies to execute the above
 
 # Screenshots
 <img width="350" alt="Screen Shot 2019-12-25 at 8 05 55 AM" src="https://user-images.githubusercontent.com/19331629/71426011-c90be900-26f7-11ea-985a-b9b1f5b37caa.png"> <img width="350" alt="Screen Shot 2019-12-25 at 8 05 55 AM" src="https://user-images.githubusercontent.com/19331629/71426028-feb0d200-26f7-11ea-981d-d7ba721be139.png">
+
+# Generating signed APK
+From Android Studio:
+
+- Build menu
+- Generate Signed APK...
+
+# Support
+- Stack Overflow
+- Udacity
+
+
 
