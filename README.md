@@ -4,7 +4,7 @@ This is an Android Application written in Kotlin to display a collection of prop
 # Installation
 Clone the repo and install the dependencies.
         
-      git clone git@github.com:wolox/<reponame>.git
+      git clone git@github.com:maquadir/PropertyApp.git
       
 # Architecture and Design
 The application follows an MVVM architecture as given below
