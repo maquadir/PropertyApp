@@ -24,9 +24,11 @@ The application follows an MVVM architecture as given below
          android:screenOrientation="sensor"
     
 ### Material Styling
-A progress bar is displayed during the async JSON read operation.
+- A progress bar is displayed during the async JSON read operation.
+- A CardView to display the details with rounded corners and a background shadow 
+- Montserrat Font styling for texts
 
-### JSON Operation using Retrofit.Builder()
+### Invoke JSON Url using Retrofit.Builder()
 We have declared a Properties API interface to invoke the JSON url using Retrofit.Builder()
 
          return Retrofit.Builder()
@@ -104,7 +106,7 @@ It is the UI part that represents the current state of information that is visib
 Constructor dependency injection has been used at multiple instances.It allows for less code overall when trying to get reference to services you share across classes, and decouples components nicely in general
 
 ### Data Binding
-All the UIView elements in the layout are binded to views through data binding
+The Data Binding Library is an Android Jetpack library that allows you to bind UI components in your XML layouts to data sources in your app using a declarative format rather than programmatically.All the UIView elements in the layout are binded to views through data binding.
 
 ### Build Gradle
 We declare the respective dependencies 
@@ -143,6 +145,16 @@ We declare the respective dependencies
 
 # Screenshots
 <img width="350" alt="Screen Shot 2019-12-25 at 8 05 55 AM" src="https://user-images.githubusercontent.com/19331629/71426011-c90be900-26f7-11ea-985a-b9b1f5b37caa.png"> <img width="350" alt="Screen Shot 2019-12-25 at 8 05 55 AM" src="https://user-images.githubusercontent.com/19331629/71426028-feb0d200-26f7-11ea-981d-d7ba721be139.png">
+
+# Generating signed APK
+From Android Studio:
+
+- Build menu
+- Generate Signed APK...
+
+# Support
+- Stack Overflow
+- Udacity
 
 
 
