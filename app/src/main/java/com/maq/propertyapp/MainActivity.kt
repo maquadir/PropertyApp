@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity() {
         val api = PropertiesApi()
         val repository = PropertiesRepository(api)
 
+        Log.i("View Model","Calling View Model")
+
         //setup view model
         factory =
             PropertyViewModelFactory(repository)

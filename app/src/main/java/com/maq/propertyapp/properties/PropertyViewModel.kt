@@ -27,6 +27,7 @@ class PropertyViewModel(private val repository: PropertiesRepository) : ViewMode
         if(::job.isInitialized) job.cancel()
     }
 
+    //coroutines - get data from repository
      fun getProperties(){
 
         job = Coroutines.ioThenMain(
