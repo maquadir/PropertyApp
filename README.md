@@ -15,19 +15,19 @@ The application follows an MVVM architecture as given below
 ### Manifest File
 - Since the app is going to fetch from json url .We have to add the following internet permissions to the manifest file.
     
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
  
 - The app supports orientation change and adapts to both portrait and landscape modes by mentioning screen orientation as 'sensor' which detects screen change and adapts its layout.
 
-    android:screenOrientation="sensor"
+         android:screenOrientation="sensor"
     
 ### Material Styling
-A progress bar is displayed during thee JSON operation.
+A progress bar is displayed during the async JSON read operation.
 
 ### JSON Operation using Retrofit.Builder()
-We have declared an API interface to deal with the JSON request using Retrofit
+We have declared a Properties API interface to invoke the JSON url using Retrofit.Builder()
 
          return Retrofit.Builder()
                 .baseUrl(BASE_URl)
@@ -36,7 +36,7 @@ We have declared an API interface to deal with the JSON request using Retrofit
                 
 ### Model
 A Modelcontains all the data classes, database classes, API and repository.
-A Property data class is created using JSON to Kotlin class plugin to map the JSON data to Kotlin. A Properties Api class to handle api requests and a repository takes care of how data will be fetched from the api.
+A Property data class is created using "JSON to Kotlin class" plugin to map the JSON data to Kotlin. A Properties Api class to handle api requests and a repository takes care of how data will be fetched from the api.
               
               data class Property (
                      val ad_id : Int,
@@ -53,7 +53,7 @@ We set up a view model factory which is responsible for creating view models.It 
         viewModel = ViewModelProviders.of(this, factory).get(PropertyViewModel::class.java)
 
 ### Coroutines
-Coroutines are a great way to write asynchronous code that is perfectly readable and maintainable. We use it to perform a job of reading from the JSON url.
+Coroutines are a great way to write asynchronous code that is perfectly readable and maintainable. We use it to perform a job of reading data from the JSON url.
 
         fun<T: Any> ioThenMain(work: suspend (() -> T?), callback: ((T?)->Unit)) =
         CoroutineScope(Dispatchers.Main).launch {
@@ -91,7 +91,7 @@ It is the UI part that represents the current state of information that is visib
             )
         holder.listViewItemBinding.indicator.setViewPager(holder.listViewItemBinding.viewpager)
         
-- We use Glide to display profile image
+- We use Glide to display profile image using data binding
       
       @BindingAdapter("image")
       fun loadImage(view: ImageView, url: String) {
@@ -103,8 +103,11 @@ It is the UI part that represents the current state of information that is visib
 ### Dependency Injection
 Constructor dependency injection has been used at multiple instances.It allows for less code overall when trying to get reference to services you share across classes, and decouples components nicely in general
 
+### Data Binding
+All the UIView elements in the layout are binded to views through data binding
+
 ### Build Gradle
-We declare the respective dependdencies to execute the above
+We declare the respective dependencies 
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.10.0'
