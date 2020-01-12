@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         //display progress bar and toast
         findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
         displayToast("Loading")
+        
 
         //setup api and repository to read from JSON URL
         val api = PropertiesApi()
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             recyclerView.also {
                 findViewById<ProgressBar>(R.id.loader).visibility = View.INVISIBLE
                 it.layoutManager = LinearLayoutManager(this)
+//                it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
                 it.setHasFixedSize(true)
                 it.adapter = PropertyAdapter(
                     properties,
@@ -77,6 +79,10 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         })
+
+
+
+
     }
 
     //To create a menu

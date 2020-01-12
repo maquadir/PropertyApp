@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -74,6 +75,10 @@ class PropertyAdapter(val propertyList: Property, val context: Context
         holder.listViewItemBinding.detailsButton?.setOnClickListener{
             showDialog(context,propertyList.data.listings[position].Description,propertyList.data.listings[position].AuctionDate,
                 propertyList.data.listings[position].DateFirstListed, propertyList.data.listings[position].DateUpdated)
+        }
+
+        holder.listViewItemBinding.buttonSkip?.setOnClickListener{
+            Log.i("CLicked","item clicked")
         }
 
     }
