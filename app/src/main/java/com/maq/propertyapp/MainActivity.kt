@@ -16,15 +16,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maq.propertyapp.network.PropertiesApi
-import com.maq.propertyapp.properties.PropertiesRepository
-import com.maq.propertyapp.properties.PropertyAdapter
-import com.maq.propertyapp.properties.PropertyViewModel
-import com.maq.propertyapp.properties.PropertyViewModelFactory
+import com.maq.propertyapp.network.RecyclerViewClickListener
+import com.maq.propertyapp.properties.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_toast.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),RecyclerViewClickListener {
 
     private  lateinit var viewModel: PropertyViewModel
     private lateinit var factory: PropertyViewModelFactory
@@ -75,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                 it.setHasFixedSize(true)
                 it.adapter = PropertyAdapter(
                     properties,
-                    this
+                    this,this
                 )
             }
         })
@@ -128,6 +126,18 @@ class MainActivity : AppCompatActivity() {
         toastText.text = message
 
         myToast.show()
+    }
+
+    override fun onRecyclerViewItemClick(view: View, property: PropertyData) {
+        when(view.id){
+            R.id.imageLayout ->{
+                viewModel.displayToast(this,"Id : "+ property.Id)
+            }
+            R.id.detailsButton ->{
+                viewModel.showDialog(this,property.Description,property.AuctionDate,
+                    property.DateFirstListed, property.DateUpdated)
+            }
+        }
     }
 
 }
